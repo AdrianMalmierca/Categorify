@@ -15,6 +15,10 @@ categoriasAPI(app);
 
 app.use(express.static('public'));
 
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 const server = app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
