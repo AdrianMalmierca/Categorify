@@ -16,5 +16,5 @@ categoriasAPI(app);
 app.use(express.static('public'));
 
 const server = app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
