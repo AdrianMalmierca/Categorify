@@ -1,0 +1,32 @@
+<div class="add-url-container">
+  <button class="back-button" (click)="goBack()">←</button>
+
+  @if (imageUrl) {
+    <div class="image-preview">
+      <img [src]="imageUrl" alt="Imagen subida">
+    </div>
+  }
+
+  <label for="fileInput" class="upload-button">Subir Imagen</label>
+  <input id="fileInput" type="file" (change)="onImageUpload($event)" accept="image/*" hidden />
+
+  <label>Nombre</label>
+  <input type="text" [(ngModel)]="name" />
+
+  <label>URL</label>
+  <input type="text" [(ngModel)]="url" />
+
+  <label>Descripción</label>
+  <textarea [(ngModel)]="description"></textarea>
+
+  <button (click)="addUrl()">Añadir</button>
+</div>
+
+@if (showErrorPopup) {
+  <div class="popup-overlay">
+    <div class="popup">
+      <p>⚠️ El nombre y la URL son obligatorios.</p>
+      <button (click)="closeErrorPopup()">Aceptar</button>
+    </div>
+  </div>
+}

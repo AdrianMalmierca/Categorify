@@ -1,0 +1,14 @@
+<app-header></app-header>
+
+<div class="categories">
+  @for (category of categories; track category.name) {
+    <div
+      class="category-card"
+      [style.background]="category.color"
+      (click)="goToCategory(category)">
+      {{ category.name }}
+    </div>
+  }
+</div>
+
+<app-nav-bar></app-nav-bar>

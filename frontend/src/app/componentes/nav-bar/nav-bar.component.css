@@ -1,0 +1,22 @@
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: black;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+button {
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  color: white;
+}
+
+button.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}

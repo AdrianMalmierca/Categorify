@@ -1,0 +1,15 @@
+<div class="create-category">
+    <button class="back-btn" (click)="router.navigate(['/home'])">←</button>
+    <h2>Añadir categoría</h2>
+  
+    <label>Nombre de la categoría</label>
+    <input [(ngModel)]="categoryName" placeholder="Ej: Frutas" />
+  
+    <label>Color de la categoría</label>
+    <div class="color-picker-container">
+      <div class="color-box" [style.background]="categoryColor" (click)="openColorPicker()"></div>
+      <input #colorPicker type="color" [ngModel]="categoryColor" (input)="updateColor($event)" hidden />
+    </div>
+  
+    <button (click)="saveCategory()">Hecho</button>
+  </div>

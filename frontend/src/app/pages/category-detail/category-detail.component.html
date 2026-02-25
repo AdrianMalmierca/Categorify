@@ -1,0 +1,34 @@
+<div class="category-container">
+  <div class="header">
+      <button class="back-button" (click)="goBack()">←</button>
+      <button class="delete-btn" (click)="openDeletePopup()">🗑</button>
+  </div>
+
+  <h2>{{ categoryName }}</h2>
+
+  <div class="url-list">
+    @for (url of urls; track url) {
+      <div class="url-item" (click)="openDetails(url)">
+        <div class="image-container" 
+          [ngStyle]="{ 'background-image': url?.imageUrl ? 'url(' + url.imageUrl + ')' : 'none' }">
+        </div>
+        <div class="url-name">{{ url.name }}</div>
+        <button class="favorite-button" (click)="toggleFavorite(url); $event.stopPropagation()">
+          {{ url.isFavorite ? '★' : '☆' }}
+        </button>        
+      </div>
+    }
+  </div>
+</div>
+
+<button class="add-button" (click)="goToAddUrl()">+</button>
+
+@if (showDeletePopup) {
+  <div class="popup-overlay">
+    <div class="popup">
+      <p>¿Seguro que desea eliminar la categoría y todos sus elementos?</p>
+      <button class="delete-confirm-btn" (click)="deleteCategory()">Eliminar</button>
+      <button class="cancel-btn" (click)="closeDeletePopup()">Cancelar</button>
+    </div>
+  </div>
+}

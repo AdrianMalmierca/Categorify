@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8e1e7;
+  padding: 10px 20px;
+}
+  
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+  
+.header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+  
+.header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}

@@ -1,0 +1,28 @@
+<app-header-fs></app-header-fs>
+
+<div class="search-container">
+  <div class="search-box">
+    <button class="menu-btn">☰</button>
+    <input type="text" [(ngModel)]="searchTerm" (input)="search()" placeholder="Buscar..." />
+    <button class="search-btn">🔍</button>
+  </div>
+
+  @if (searchResults && searchResults.length > 0) {
+    <div class="results">
+      @for (item of searchResults; track item.name) {
+        <app-url-card 
+          [name]="item.name" 
+          [url]="item.url"
+          [imageUrl]="item.imageUrl"
+          [isFavorite]="item.isFavorite"
+          [categoryName]="item.categoryName"
+          (click)="openDetails(item)"
+          (toggleFavoriteEvent)="toggleFavorite(item)"> 
+        </app-url-card>
+      
+      }
+    </div>
+  }
+</div>
+
+<app-nav-bar></app-nav-bar>

@@ -1,0 +1,19 @@
+<app-header-fs></app-header-fs>
+
+@if (favoriteItems.length > 0) {
+  @for (item of favoriteItems; track item.name) {
+    <app-url-card 
+      [name]="item.name" 
+      [url]="item.url"
+      [imageUrl]="item.imageUrl"
+      [isFavorite]="item.isFavorite"
+      [categoryName]="item.categoryName"
+      (urlClick)="openDetails($event)"
+      (toggleFavoriteEvent)="toggleFavorite(item)">
+    </app-url-card>
+  }
+} @else {
+  <p>No tienes favoritos aún.</p>
+}
+
+<app-nav-bar></app-nav-bar>

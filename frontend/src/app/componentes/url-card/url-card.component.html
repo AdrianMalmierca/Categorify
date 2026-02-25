@@ -1,0 +1,17 @@
+<div class="url-card" (click)="handleCardClick($event)">
+  <div class="image-container">
+    @if (imageUrl) {
+      <img [src]="imageUrl" alt="{{ name }}">
+    } @else {
+      <div class="default-circle"></div>
+    }
+  </div>    
+
+  <div class="card-content">
+    {{ name }}
+  </div>
+
+  <button class="favorite-btn" type="button" (click)="toggleFavorite($event); $event.stopPropagation();">
+    <span [class.filled]="isFavorite">★</span>
+  </button>
+</div>

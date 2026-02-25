@@ -1,0 +1,6 @@
+<nav class="navbar">
+  <button [class.active]="isActive('/search')" [routerLink]="['/search']">🔍</button>
+  <button [class.active]="isActive('/favorites')" [routerLink]="['/favorites']">⭐</button>
+  <button [class.active]="isActive('/home')" [routerLink]="['/home']">🏠</button>
+  <button [routerLink]="['/settings']">⚙️</button>  
+</nav>

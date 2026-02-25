@@ -1,0 +1,44 @@
+<div class="details-container">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">←</button>
+    <button class="delete-btn" (click)="openDeletePopup()">🗑</button>
+  </div>
+
+  <div class="details-card">
+    @if (urlData?.imageUrl) {
+      <img [src]="urlData.imageUrl" alt="Imagen de la URL" class="details-image">
+    } @else {
+      <p class="no-image">No hay imagen disponible</p>
+    }
+
+    <label>Nombre:</label>
+    <input type="text" [(ngModel)]="urlData.name" required>
+
+    <label>URL:</label>
+    <input type="text" [value]="urlData.url" readonly>
+
+    <label>Descripción:</label>
+    <textarea [(ngModel)]="urlData.description"></textarea>
+
+    <button class="save-btn" (click)="saveChanges()">Guardar</button>
+  </div>
+</div>
+
+@if (showDeletePopup) {
+  <div class="popup-overlay">
+    <div class="popup">
+      <p>¿Seguro que desea eliminar?</p>
+      <button class="delete-confirm-btn" (click)="deleteUrl()">Eliminar</button>
+      <button class="cancel-btn" (click)="closeDeletePopup()">Cancelar</button>
+    </div>
+  </div>
+}
+
+@if (showSavePopup) {
+  <div class="popup-overlay">
+    <div class="popup">
+      <p>✅ Cambios guardados correctamente</p>
+      <button class="accept-btn" (click)="closeSavePopup()">Aceptar</button>
+    </div>
+  </div>
+}
