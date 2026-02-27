@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService, Item } from '../../servicios/category.service';
 import { UrlDataService } from '../../servicios/url-data.service';
 import { NgStyle } from '@angular/common';
+import { UrlCardComponent } from "../../componentes/url-card/url-card.component";
 
 @Component({
   selector: 'app-category-detail',
   templateUrl: './category-detail.component.html',
   styleUrl: './category-detail.component.css',
   standalone: true,
-  imports: [NgStyle],
+  imports: [UrlCardComponent],
 })
 export class CategoryDetailComponent {
   categoryId = '';
