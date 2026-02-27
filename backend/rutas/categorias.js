@@ -47,18 +47,6 @@ function categoriasAPI(app) {
         }
     });
 
-    //Añadir una URL a una categoría
-    router.post('/:id/urls', async (req, res) => {
-        try {
-            const { id } = req.params;
-            const urlItem = req.body;
-            await categoriasService.addUrlToCategory(id, urlItem);
-            res.status(201).json({ message: "URL añadida correctamente" });
-        } catch (error) {
-            res.status(500).json({ error: "Error añadiendo URL" });
-        }
-    });
-
     //Agregar URL
     router.put('/:id/add-url', async (req, res) => {
         try {
@@ -79,7 +67,6 @@ function categoriasAPI(app) {
         const updatedUrl = req.body;
 
         try {
-            const categoriasService = new CategoriasService();
             await categoriasService.updateUrl(categoryId, updatedUrl);
             res.status(200).json({ message: "URL actualizada correctamente" });
         } catch (error) {
@@ -93,7 +80,6 @@ function categoriasAPI(app) {
         const { categoryId, urlId } = req.params;
       
         try {
-          const categoriasService = new CategoriasService();
           await categoriasService.deleteUrl(categoryId, urlId);
           res.status(200).json({ message: "URL eliminada correctamente" });
         } catch (error) {
