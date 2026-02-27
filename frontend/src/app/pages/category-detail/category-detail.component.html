@@ -7,17 +7,16 @@
   <h2>{{ categoryName }}</h2>
 
   <div class="url-list">
-    @for (url of urls; track url) {
-      <div class="url-item" (click)="openDetails(url)">
-        <div class="image-container" 
-          [ngStyle]="{ 'background-image': url?.imageUrl ? 'url(' + url.imageUrl + ')' : 'none' }">
-        </div>
-        <div class="url-name">{{ url.name }}</div>
-        <button class="favorite-button" (click)="toggleFavorite(url); $event.stopPropagation()">
-          {{ url.isFavorite ? '★' : '☆' }}
-        </button>        
-      </div>
-    }
+    <app-url-card
+      *ngFor="let url of urls"
+      [name]="url.name"
+      [url]="url.url"
+      [imageUrl]="url.imageUrl"
+      [isFavorite]="url.isFavorite"
+      [categoryName]="categoryName"
+      (urlClick)="openDetails($event)"
+      (toggleFavoriteEvent)="toggleFavorite(url)">
+    </app-url-card>
   </div>
 </div>
 
