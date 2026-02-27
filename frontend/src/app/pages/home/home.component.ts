@@ -3,10 +3,11 @@ import { CategoryService, Category } from '../../servicios/category.service';
 import { HeaderComponent } from '../../componentes/header/header.component';
 import { NavBarComponent } from '../../componentes/nav-bar/nav-bar.component';
 import { Router } from '@angular/router';
+import { CategoryCardComponent } from "../../componentes/category-card/category-card.component";
 
 @Component({
   selector: 'app-home',
-  imports: [HeaderComponent, NavBarComponent],
+  imports: [HeaderComponent, NavBarComponent, CategoryCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
