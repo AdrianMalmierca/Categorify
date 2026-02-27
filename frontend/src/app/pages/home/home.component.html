@@ -1,13 +1,11 @@
 <app-header></app-header>
 
 <div class="categories">
-  @for (category of categories; track category.name) {
-    <div
-      class="category-card"
-      [style.background]="category.color"
+  @for (category of categories; track category._id) {
+    <app-category-card
+      [category]="category"
       (click)="goToCategory(category)">
-      {{ category.name }}
-    </div>
+    </app-category-card>
   }
 </div>
 
