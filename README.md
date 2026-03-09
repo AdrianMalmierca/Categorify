@@ -152,20 +152,23 @@ The frontend is component-driven and modular.
 
 ## Local Development
 1. Clone the repository
+
+```bash
 git clone https://github.com/AdrianMalmierca/Categorify
+```
 
 ### Backend
-- Navigates to the backend project directory.
+2. Navigates to the backend project directory.
 ```bash
 cd backend
 ```
 
-- Installs all required dependencies defined in package.json.
+3. Installs all required dependencies defined in package.json.
 ```bash
 npm install
 ```
 
-- Launches the Express server.
+4. Launches the Express server.
 ```bash
 npm run start
 ```
@@ -177,17 +180,17 @@ Environment variables required:
 - MONGO_URI=your_mongodb_connection_string
 
 ### Frontend
-- Navigates to the Angular project directory.
+5. Navigates to the Angular project directory.
 ```bash
 cd frontend
 ```
 
-- Installs all frontend dependencies.
+6. Installs all frontend dependencies.
 ```bash
 npm install
 ```
 
-Starts the Angular development server and compiles the application in development mode.
+7. Starts the Angular development server and compiles the application in development mode.
 ```bash
 ng serve
 ```
@@ -197,6 +200,39 @@ Frontend → http://localhost:4200
 Backend  → http://localhost:3000
 
 Note: In production, the API URL must point to the deployed backend instead of localhost.
+
+## Execution:
+
+### Home page
+The main page is the Home where you can see all the categories created, with the name and color you selected. You can also create a new category with the '+' button.
+![Home](assets/home.png)
+
+### Favourites page
+On this page you can see all the elements you add to favourites.
+![Favourites full](assets/favoritos.png)
+
+In case you didn't add any element to favourites, you'll se a messsage which says theres nothing in favourites.
+![Favourites empty](assets/favoritos%20vacio.png)
+
+### Search page
+On this page you can search the products, where will show all the coincides by the names.
+![Search](assets/search.png)
+
+### Create category page
+From home when you click on the '+' button you can create a new category, choosing the name and the color with the color picker.
+![Create element](assets/crear%20elemento.png)
+
+### Create element page
+On this page you can create one element, where you have to put the image and the name, these attributes are required, the url and the description are optional.
+![Create element](assets/crear%20elemento.png)
+
+### Caterory detail page
+When you click on a category from home, you'll see all the elements of this category, where you can create one element with the '+' button, or delate all the category with the trash icon. You can also check all the information of one element if you click on it.
+![Category detail](assets/Add%20categoria.png)
+
+### Element detail page
+When you click on an item from the category detail, favourites or search you can see all the option, where you can modify all the attributes except the image.
+![Element detail](assets/elemento%20update.png)
 
 ## Deployment
 The project is deployed on Render.
