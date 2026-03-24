@@ -1,110 +1,137 @@
-# Categorify
-Categorify is a full-stack web application built with Angular (frontend) and Express (backend), designed to organize and manage URLs in a structured and visual way.
+# Categorify — Full-Stack URL Manager with Angular + Express + MongoDB
 
-The application allows users to create color-coded categories and store URL entries inside them, including metadata such as description, image, and favorite status.
+![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
+![Express](https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express)
+![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?style=flat-square&logo=mongodb)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=nodedotjs)
+![RxJS](https://img.shields.io/badge/RxJS-7-B7178C?style=flat-square&logo=reactivex)
+![Render](https://img.shields.io/badge/Render-deployed-46E3B7?style=flat-square&logo=render)
 
-The app is deployed in render so you dont need to deployed it local: https://categorify.onrender.com
+A full-stack web application for organizing and managing URLs through color-coded categories — with metadata support, favorites, real-time search, and full CRUD operations across nested resources.
 
-The full project (frontend + backend) is on GitHub, but it's hosted on Render for demonstration purposes. Companies can view and interact with the app online without needing to run it locally.
+---
 
-## Overview
-Categorify provides a clean and intuitive interface to:
-1. Create and manage custom categories
-2. Store URLs inside categories
-3. Add metadata (description, image)
-4. Mark URLs as favorites
-5. Search across all stored URLs
-6. Edit and delete both categories and URLs
+## Live Demo
 
-The system follows a client–server architecture with a RESTful API and a reactive frontend using state management via BehaviorSubject.
+🔗 [categorify.onrender.com](https://categorify.onrender.com)
+
+No local setup needed — the app is fully deployed on Render with an external MongoDB instance.
+
+---
+
+## Problem Statement
+
+Most people store URLs in browser bookmarks, messaging apps, open tabs, or notes — with no semantic structure, no context, and no way to search across them.
+
+Categorify solves this by:
+
+- Organizing links into color-coded categories for visual grouping
+- Attaching metadata (description, image, favorite flag) to every URL
+- Providing real-time global search and a cross-category favorites view
+- Offering full CRUD control through a clean REST API backed by MongoDB
+
+---
+
+## Screenshots
+
+### Home — Category Overview
+All categories displayed with their custom names and colors. Create a new one with the `+` button.
+
+![Home](assets/home.png)
+
+### Category Detail
+All URLs inside a category. Add a new entry with `+` or delete the entire category with the trash icon.
+
+![Category detail](assets/Add%20categoria.png)
+
+### URL Detail
+Full metadata view for a URL — edit name, description, URL, and favorite status.
+
+![Element detail](assets/elemento%20update.png)
+
+### Favorites
+Aggregated view of all favorited URLs across every category.
+
+![Favourites full](assets/favoritos.png)
+
+![Favourites empty](assets/favoritos%20vacio.png)
+
+### Search
+Real-time, case-insensitive filtering across all stored URLs by name.
+
+![Search](assets/search.png)
+
+### Create Category
+Pick a name and a color from the color picker to create a new category.
+
+![Create category](assets/crear%20elemento.png)
+
+---
+
+## Features
+
+### Categories
+- Create with custom name and color via color picker
+- Delete a category along with all its nested URLs
+
+### URL Management
+- Add URLs with name (required), URL (required), description (optional), Base64 image, and favorite flag
+- Edit all metadata fields from the detail page
+- Delete individual URLs without affecting the parent category
+
+### Favorites
+- Toggle favorite state from any page
+- Centralized favorites view aggregated across all categories
+- Reactive synchronization — changes reflect instantly everywhere
+
+### Search
+- Real-time client-side filtering across all URLs
+- Case-insensitive name matching
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Reason |
+|-------|-----------|--------|
+| Frontend | Angular (standalone + NgModules) | Component-driven SPA with reactive data flow |
+| State | RxJS BehaviorSubject | Single reactive source of truth, no external state library |
+| HTTP | Angular HttpClient | Typed HTTP communication with the REST API |
+| Backend | Node.js + Express | Lightweight REST API with layered architecture |
+| Database | MongoDB (embedded documents) | Nested URL items inside category documents |
+| Hosting | Render (frontend + backend) | Zero-config deployment, external MongoDB |
+
+---
 
 ## Architecture
 
-### Frontend
-Framework: Angular
-State management: RxJS (BehaviorSubject)
-Routing: Angular Router
-Forms: Template-driven forms
-HTTP Communication: Angular HttpClient
-
-### Main functional modules
-- Home – Displays all categories
-- Category Detail – Lists URLs inside a category
-- Add URL – Adds a new URL to a category
-- URL Detail – View and edit URL metadata
-- Favorites – Aggregates all favorite URLs
-- Search – Full-text search by URL name
-
-### Service: CategoryService
-- Loads categories from backend
-- Stores them in a BehaviorSubject
-- Derives favorites dynamically
-- Synchronizes state after each mutation (CRUD operations)
-
-### Backend
-Runtime: Node.js
-Framework: Express
-Database: MongoDB
-Architecture: Layered (Routes → Service → Data Access)
-
-### Data model
-A Categoria document:
-
+### Data Model
+```json
 {
-  name: String,
-  color: String,
-  items: [
+  "name": "String",
+  "color": "String",
+  "items": [
     {
-      name: String,
-      url: String,
-      description: String,
-      imageUrl: String,
-      isFavorite: Boolean
+      "name": "String",
+      "url": "String",
+      "description": "String",
+      "imageUrl": "String (Base64)",
+      "isFavorite": "Boolean"
     }
   ]
 }
-Each category contains embedded URL items. Each URL has its own _id (ObjectId).
+```
 
-## REST API
-Base URL: /api/categorias
-API Endpoints
+Each category embeds its URL items directly. Each item has its own `_id` (ObjectId).
 
-| Method | Endpoint                                   | Description                |
-|--------|--------------------------------------------|----------------------------|
-| GET    | `/`                                        | Get all categories         |
-| POST   | `/`                                        | Create new category        |
-| DELETE | `/:id`                                     | Delete category            |
-| PUT    | `/:id/add-url`                             | Add URL to category        |
-| PUT    | `/:categoryId/update-url/:urlId`           | Update URL                 |
-| DELETE | `/:categoryId/delete-url/:urlId`           | Delete URL                 |
+### Data Flow
+```
+User action → Angular Service → HttpClient → Express Route → Service layer → MongoDB
+                                                                              ↓
+                             BehaviorSubject updated ← Response returned ←───┘
+```
 
-All endpoints return JSON responses.
-
-### Core features
-1. Categories
-- Create category with custom name and color
-- Delete category (with all nested URLs)
-
-2. RL Management
-- Add URL with:
-    - Name (required)
-    - URL (required)
-    - Description (optional)
-    - Image (Base64)
-    - Favorite status
-- Edit URL metadata
-- Delete URL
-
-3. Favorites
-- Toggle favorite state
-- Centralized favorite view
-- Automatically synchronized across pages
-
-4. Search
-- Real-time filtering by URL name
-- Case-insensitive matching
-
-### Project structure
+### Project Structure
 ```
 categorify/
 │
@@ -116,211 +143,129 @@ categorify/
 │   └── lib/
 │
 └── frontend/
-    ├── src/app/
+    └── src/app/
         ├── componentes/
-        |       ├── category-card
-        |       ├── create-category
-        |       ├── header
-        |       ├── header-fs
-        |       ├── nav-bar
-        |       ├── url-card
+        │   ├── category-card/
+        │   ├── create-category/
+        │   ├── header/
+        │   ├── header-fs/
+        │   ├── nav-bar/
+        │   └── url-card/
         ├── pages/
-        |       ├── add-url
-        |       ├── category-deatil
-        |       ├── favourites
-        |       ├── home
-        |       ├── search
-        |       ├── url-detail
+        │   ├── home/
+        │   ├── category-detail/
+        │   ├── add-url/
+        │   ├── url-detail/
+        │   ├── favourites/
+        │   └── search/
         └── servicios/
 ```
 
-The backend follows a service-based architecture:
-- Routes handle HTTP layer
-- Service encapsulates business logic
-- MongoLib abstracts database operations
+---
 
-The frontend is component-driven and modular.
+## REST API
 
-## Data Flow
+Base URL: `/api/categorias`
 
-1. User triggers UI action
-2. Angular Service performs HTTP request
-3. Backend Route calls Service layer
-4. Service interacts with MongoDB
-5. Updated data returned
-6. Frontend reloads categories and updates reactive streams
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Get all categories |
+| POST | `/` | Create new category |
+| DELETE | `/:id` | Delete category and all nested URLs |
+| PUT | `/:id/add-url` | Add URL to category |
+| PUT | `/:categoryId/update-url/:urlId` | Update URL metadata |
+| DELETE | `/:categoryId/delete-url/:urlId` | Delete a URL |
+
+All endpoints return JSON. The backend follows a layered architecture: Routes handle HTTP, Services encapsulate business logic, and MongoLib abstracts database operations.
+
+---
 
 ## Local Development
-1. Clone the repository
-
 ```bash
+# Clone the repository
 git clone https://github.com/AdrianMalmierca/Categorify
 ```
 
 ### Backend
-2. Navigates to the backend project directory.
 ```bash
 cd backend
-```
-
-3. Installs all required dependencies defined in package.json.
-```bash
 npm install
-```
-
-4. Launches the Express server.
-```bash
 npm run start
 ```
 
-The backend exposes the REST API under: http://localhost:3000/api/categorias
-
 Environment variables required:
-- PORT=3000
-- MONGO_URI=your_mongodb_connection_string
+```env
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+```
+
+API available at: `http://localhost:3000/api/categorias`
 
 ### Frontend
-5. Navigates to the Angular project directory.
 ```bash
 cd frontend
-```
-
-6. Installs all frontend dependencies.
-```bash
 npm install
-```
-
-7. Starts the Angular development server and compiles the application in development mode.
-```bash
 ng serve
 ```
 
-By default:
-Frontend → http://localhost:4200
-Backend  → http://localhost:3000
+Frontend at `http://localhost:4200` — update the API base URL in the service to point to `localhost:3000` for local development.
 
-Note: In production, the API URL must point to the deployed backend instead of localhost.
+---
 
-## Execution:
+## Key Engineering Decisions
 
-### Home page
-The main page is the Home where you can see all the categories created, with the name and color you selected. You can also create a new category with the '+' button.
-![Home](assets/home.png)
+### Why embedded documents in MongoDB?
+URL items live inside their parent category document rather than in a separate collection. This simplifies reads — loading a category returns all its URLs in a single query — at the cost of some update complexity. For this scale and use case, the tradeoff is clearly worth it.
 
-### Favourites page
-On this page you can see all the elements you add to favourites.
-![Favourites full](assets/favoritos.png)
+### Why BehaviorSubject over Angular Signals?
+The app was built before Signals became the standard Angular recommendation. BehaviorSubject from RxJS provides a reactive single source of truth that components subscribe to — any mutation triggers a backend sync and a full state reload, guaranteeing consistency across views.
 
-In case you didn't add any element to favourites, you'll se a messsage which says theres nothing in favourites.
-![Favourites empty](assets/favoritos%20vacio.png)
+### Why Base64 for images?
+Storing images as Base64 strings in MongoDB avoids the need for a separate file storage service (S3, Cloudinary). It's the simplest approach for a portfolio-scale app — no external dependencies, no presigned URLs, no CORS issues.
 
-### Search page
-On this page you can search the products, where will show all the coincides by the names.
-![Search](assets/search.png)
+---
 
-### Create category page
-From home when you click on the '+' button you can create a new category, choosing the name and the color with the color picker.
-![Create element](assets/crear%20elemento.png)
+## Future Improvements
 
-### Create element page
-On this page you can create one element, where you have to put the image and the name, these attributes are required, the url and the description are optional.
-![Create element](assets/crear%20elemento.png)
+### Short Term
+- Validation middleware with Joi
+- Pagination for large category datasets
+- Unit and integration tests
 
-### Caterory detail page
-When you click on a category from home, you'll see all the elements of this category, where you can create one element with the '+' button, or delate all the category with the trash icon. You can also check all the information of one element if you click on it.
-![Category detail](assets/Add%20categoria.png)
-
-### Element detail page
-When you click on an item from the category detail, favourites or search you can see all the option, where you can modify all the attributes except the image.
-![Element detail](assets/elemento%20update.png)
-
-## Deployment
-The project is deployed on Render.
-Deployment characteristics:
-- Backend deployed as Node service
-- MongoDB hosted externally
-- Frontend built and served in production mode
-- CORS enabled
-
-## Technical Highlights
-- Reactive state management with RxJS
-- Embedded document modeling in MongoDB
-- Clean separation of concerns (Route / Service / Data layer)
-- Centralized favorites aggregation logic
-- Base64 image storage for simplicity
-- Full CRUD operations across nested resources
-
-## Potential Improvements
-- Authentication & user accounts
-- Pagination for large datasets
-- Validation middleware (e.g., Joi)
-- Unit and integration testing
-- Dockerization
+### Medium Term
+- Authentication and user accounts (each user owns their categories)
+- Dockerization for local and CI environments
+- Optimized MongoDB queries (avoid full collection fetch on updates)
 - Environment-based API configuration
-- Optimized Mongo queries (avoid full collection fetch for updates)
 
-## What problems does this project solve?
-Categorify solves common productivity and organization issues:
+### Long Term
+- Migrate image storage to Cloudinary or S3
+- Migrate state management to Angular Signals
+- Tag system for cross-category URL labeling
+- Import/export from browser bookmarks
 
-### Bookmark chaos
- Most users store URLs in:
-- Browser bookmarks (poorly structured)
-- Messaging apps
-- Notes apps
-- Random tabs left open
+---
 
-There is no semantic organization.
+## What I Learned Building This
 
-Categorify introduces structured categorization with visual grouping (color-coded categories).
+This was my first complete full-stack Angular project — and the hardest part wasn't writing code, it was understanding *how* Angular thinks. The component/service boundary, how services hold shared state, how `BehaviorSubject` connects a service mutation to a template update — none of that clicked immediately.
 
-### Lack of context in bookmarks
-Traditional bookmarks only store:
-- Title
-- URL
+Once it did, the pattern became very logical: services own the data, components own the presentation, and RxJS streams connect them. Building CategoryService to be the single source of truth for the entire app — handling all CRUD, synchronizing state after every mutation, and deriving favorites dynamically — was the moment that pattern became concrete for me.
 
-Categorify allows:
-- Description
-- Custom image
-- Favorite flag
-- Category grouping
+Deploying on Render with a live MongoDB instance was also new ground. Getting CORS, environment variables, and production build configuration right across two separate services taught me that deployment is its own engineering problem, not just an afterthought.
 
-This adds semantic metadata to links.
+---
 
-### Poor discoverability
-Standard bookmark systems lack:
-- Global search
-- Cross-category favorites
-- Quick filtering
+## License
 
-Categorify provides:
-- Real-time search across all items
-- Favorites aggregation view
-- Category-based filtering
+MIT — free to use, modify, and deploy.
 
-### No CRUD control in basic bookmark tools
-This app provides full REST-based CRUD:
-- Create categories
-- Delete categories
-- Add URLs
-- Update URLs
-- Delete URLs
-- Toggle favorites
-
-### State management and data consistency
-- Frontend state is synchronized with backend using:
-- Angular BehaviorSubject
-- REST API
-- MongoDB persistence
-
-Ensures:
-- Reactive UI updates
-- Backend data consistency
-- Single source of truth
-
-## What did I learn?
-I learned how to create a whole App in Angular, using a database online, which is MongoDB, and locating in a server so you can use whenever you want without run locally. At first understand the logic of Angular, how the components and the pages are comunicated is quiet hard, understand who work the services... But once you understand is very logic
+---
 
 ## Author
-Adrián Martín Malmierca
 
-Computer Engineer & Mobile Applications Master's Student
+**Adrián Martín Malmierca**  
+Computer Engineer & Mobile Applications Master's Student  
+[GitHub](https://github.com/AdrianMalmierca) · [LinkedIn](https://www.linkedin.com/in/adri%C3%A1n-mart%C3%ADn-malmierca-4aa6b0293/)
+
+*Built as a portfolio project demonstrating full-stack Angular + Node.js development, deployed live on Render.*
