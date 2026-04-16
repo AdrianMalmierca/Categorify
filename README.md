@@ -13,7 +13,7 @@ A full-stack web application for organizing and managing URLs through color-code
 
 ## Live Demo
 
-🔗 [categorify.onrender.com](https://categorify.onrender.com)
+🔗 [categorify.onrender.com](https://categorify.onrender.com) It can takes even 1 minute to deploy so is a normal behaviour.
 
 No local setup needed — the app is fully deployed on Render with an external MongoDB instance.
 
